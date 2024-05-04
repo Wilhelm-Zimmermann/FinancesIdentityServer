@@ -7,17 +7,35 @@ services:
       - 5432:5432
     volumes:
       - /var/lib/postgresql/data
-  
-  finances-identity:
-    image: wilhelmzimmermann/finances-identity:latest
-    build: 
-      context: .
-      dockerfile: src/IdentityServer/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_URLS=http://+80
-      - ConnectionStrings__DefaultConnection=Server=pg-identity:5432;User Id=postgres;Password=1234;Database=identity
+    networks:
+      - finances
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
     ports:
-      - 5000:80
-    depends_on:
-      - pg-identity
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - finances
+
+  
+  # finances-identity:
+  #   image: wilhelmzimmermann/finances-identity:latest
+  #   build: 
+  #     context: .
+  #     dockerfile: src/IdentityServer/Dockerfile
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Docker
+  #     - ASPNETCORE_URLS=http://+80
+  #     - ConnectionStrings__DefaultConnection=Server=pg-identity:5432;User Id=postgres;Password=1234;Database=identity
+  #     - RabbitMq__Host=rabbitmq
+  #   ports:
+  #     - 5000:80
+  #   depends_on:
+  #     - pg-identity
+  #   networks:
+  #     - finances
+
+networks:
+  finances:
+    driver: bridge
