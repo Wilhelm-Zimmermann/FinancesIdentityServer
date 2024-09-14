@@ -13,6 +13,7 @@ try
     var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddMassTransit(x =>
     {
+        x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("identity", false));
         x.UsingRabbitMq((context, cfg) =>
         {
             cfg.Host(builder.Configuration["RabbitMq:Host"], "/", host =>

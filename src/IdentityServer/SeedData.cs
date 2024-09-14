@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
+using FinancesLibrary.Events;
 using IdentityModel;
 using IdentityServer.Data;
 using IdentityServer.Models;
-using Library.MessageBusEvents.Users;
 using MassTransit;
 using MassTransit.Transports;
 using Microsoft.AspNetCore.Identity;
@@ -55,7 +55,10 @@ public class SeedData
                 Email = will.Email
             };
 
-            _publishEndpoint.Publish(createUserEvent);
+            await _publishEndpoint.Publish(createUserEvent, context =>
+            {
+                Log.Debug($"Message was sent to queue {context.DestinationAddress}");
+            });
             Log.Debug("will created");
         }
         else

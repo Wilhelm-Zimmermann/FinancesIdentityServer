@@ -8,6 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="7.0.4" />
+		<PackageReference Include="FinancesLibrary" Version="1.0.0" />
 		<PackageReference Include="Library" Version="1.0.0" />
 		<PackageReference Include="MassTransit" Version="8.2.2" />
 		<PackageReference Include="MassTransit.RabbitMQ" Version="8.2.2" />
